@@ -22,7 +22,7 @@ app.get('/', (req,res)=>{
 app.get('/random',(req,res)=>{
     let numbers= []
     let numbersObject= new Object();
-    for(let i=0 ; i<100; i++){
+    for(let i=0 ; i<10000; i++){
      let randomNum=Math.floor(Math.random() * 21);
      numbers.push(randomNum)
     }
