@@ -1,5 +1,6 @@
 import express from 'express';
-const app = express()
+const app = express();
+import * as fs from 'fs';
 
 app.use(express.static('public'))
 
@@ -40,7 +41,37 @@ app.get('/random',(req,res)=>{
 })
 
 
-app.get('/info',(req,res)=>{
+app.get('/info', async (req,res)=>{
+    async function contenido() {
+        try{
+    let data =  await fs.promises.readFile('package.json','utf-8')
+        return data}
+        catch(error){
+            console.log('aaaaaa')
+        } 
+
+    
+    }
+       
+    
+
+    let info = {
+        //contenidoStr:JSON.stringify(contenido()),
+        //contenidoObj:JSON.parse(this.contenidoStr),
+        //size:contenido().length
+    }
+    let hibrido = await contenido()
+    info["contenidoStr"]= JSON.stringify(JSON.parse(hibrido));
+    info["contenidoObj"]= JSON.parse(hibrido)
+    info["size"]=hibrido.length
+
+    res.send(`<h2>${JSON.stringify(info)}</h2>`);
+    (async () => {
+    await fs.promises.writeFile('info.txt', JSON.stringify(info))
+    })()
+    await console.log(info)
+
+    
 
 })
 
