@@ -50,7 +50,7 @@ app.get('/info', async (req,res)=>{
     let data =  await fs.promises.readFile('package.json','utf-8')
         return data}
         catch(error){
-            console.log('aaaaaa')
+            console.log('ERROR leyendo archivo')
         } 
 
     
@@ -63,16 +63,17 @@ app.get('/info', async (req,res)=>{
         //contenidoObj:JSON.parse(this.contenidoStr),
         //size:contenido().length
     }
-    let hibrido = await contenido()
-    info["contenidoStr"]= JSON.stringify(JSON.parse(hibrido));
-    info["contenidoObj"]= JSON.parse(hibrido)
-    info["size"]=hibrido.length
+    let contenidoInfo = await contenido()
+    info["contenidoStr"]= JSON.stringify(JSON.parse(contenidoInfo));
+    info["contenidoObj"]= JSON.parse(contenidoInfo)
+    info["size"]=contenidoInfo.length
+
+    await console.log(info)
 
     res.send(`<h2>${JSON.stringify(info)}</h2>`);
     (async () => {
     await fs.promises.writeFile('info.txt', JSON.stringify(info,null,2))
     })()
-    await console.log(info)
 
     
 
