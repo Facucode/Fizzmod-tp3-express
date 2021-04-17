@@ -27,7 +27,7 @@ app.get('/random',(req,res)=>{
     let numbers= []
     let numbersObject= new Object();
     for(let i=0 ; i<10000; i++){
-     let randomNum=Math.floor(Math.random() * 21);
+     let randomNum=Math.floor(Math.random() * 20) + 1;
      numbers.push(randomNum)
     }
     
