@@ -2,13 +2,16 @@ import express from 'express';
 const app = express();
 import * as fs from 'fs';
 
+
 app.use(express.static('public'))
 
 
 
 
-let now = new Date().getUTCHours();
-console.log(new Date().getUTCHours());
+let date = new Date();
+let now = date.toLocaleTimeString()
+
+console.log(now);
 
 app.get('/', (req,res)=>{
     if (now >= 6 && now <= 12)
@@ -67,7 +70,7 @@ app.get('/info', async (req,res)=>{
 
     res.send(`<h2>${JSON.stringify(info)}</h2>`);
     (async () => {
-    await fs.promises.writeFile('info.txt', JSON.stringify(info))
+    await fs.promises.writeFile('info.txt', JSON.stringify(info,null,2))
     })()
     await console.log(info)
 
@@ -75,7 +78,10 @@ app.get('/info', async (req,res)=>{
 
 })
 
-app.get('/operaciones',(req,res)=>{
+app.get('/operaciones?:num1?:num2?:operacion',(req,res)=>{
+            
+    
+    if(req.query.num1 && req.query.num2 && req.query.operacion){     
     let num1 = parseFloat(req.query.num1);
     let num2 = parseFloat(req.query.num2);
     let operacion = req.query.operacion;
@@ -96,10 +102,15 @@ app.get('/operaciones',(req,res)=>{
             res.send(`<h2>${JSON.stringify({"error":{num1,num2,operacion}})}</h2>`)        
     }
 
+    
+    
+}
+else{
+    res.sendFile(process.cwd()+'/public/operaciones.html')
 
+}
 
 })
-
 
 
 
