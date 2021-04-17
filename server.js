@@ -17,9 +17,9 @@ app.get('/', (req,res)=>{
     if (now >= 6 && now <= 12)
     res.send(`<h3 style="color:Tomato">Buenos dias!</h3>`);
     if (now>=13 && now <= 19)
-    res.send(`<h3 style:"MediumSeaGreen">Buenas tardes!</h3>`)
+    res.send(`<h3 style="color:MediumSeaGreen">Buenas tardes!</h3>`)
     else
-    res.send(`<h3 style:"SlateBlue">Buenas noches!</h3>`)
+    res.send(`<h3 style="color:SlateBlue">Buenas noches!</h3>`)
 
 })
 
