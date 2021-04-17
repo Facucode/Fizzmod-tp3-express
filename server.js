@@ -9,7 +9,7 @@ app.use(express.static('public'))
 
 
 let date = new Date();
-let now = date.toLocaleTimeString()
+let now = date.toLocaleTimeString('en-GB',{hour:'2-digit'})
 
 console.log(now);
 
