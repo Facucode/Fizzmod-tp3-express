@@ -80,38 +80,42 @@ app.get('/info', async (req,res)=>{
 })
 
 app.get('/operaciones?:num1?:num2?:operacion',(req,res)=>{
-            
+    if(req.query.num1 && req.query.num2 && req.query.operacion){           
+        let num1 = isNaN(req.query.num1) ? req.query.num1 : parseFloat(req.query.num1);
+        let num2 = isNaN(req.query.num2) ? req.query.num2 : parseFloat(req.query.num2);
+        let operacion = isNaN(req.query.operacion) ?req.query.operacion : parseFloat(req.query.operacion) ;
+        let error = JSON.stringify({"error":{"num1":{"valor":num1,"tipo":typeof num1},"num2":{"valor":num2,"tipo":typeof num2},"operacion":{"valor":operacion,"tipo":typeof operacion}}})
+        if (typeof num1 == 'number' && typeof num2 == 'number' && typeof operacion == 'string'){
+            switch(operacion){
+                case "suma":
+                    res.send(`<h2>${JSON.stringify({num1,num2,operacion,"resultado":num1+num2})}</h2>`)
+                    break;
+                case "resta":
+                    res.send(`<h2>${JSON.stringify({num1,num2,operacion,"resultado":num1-num2})}</h2>`)
+                    break;
+                case "division":
+                    res.send(`<h2>${JSON.stringify({num1,num2,operacion,"resultado":num1/num2})}</h2>`)
+                    break;
+                case "multiplicacion":
+                    res.send(`<h2>${JSON.stringify({num1,num2,operacion,"resultado":num1*num2})}</h2>`)
+                    break;
+                default:
+                    res.send(`<h2>${error}</h2>`)        
+            }
+        
+        }
+        else{
+            res.send(`<h2>${error}</h2>`)        
+        }
     
-    if(req.query.num1 && req.query.num2 && req.query.operacion){     
-    let num1 = parseFloat(req.query.num1);
-    let num2 = parseFloat(req.query.num2);
-    let operacion = req.query.operacion;
-    switch(operacion){
-        case "suma":
-            res.send(`<h2>${JSON.stringify({num1,num2,operacion,"resultado":num1+num2})}</h2>`)
-            break;
-        case "resta":
-            res.send(`<h2>${JSON.stringify({num1,num2,operacion,"resultado":num1-num2})}</h2>`)
-            break;
-        case "division":
-            res.send(`<h2>${JSON.stringify({num1,num2,operacion,"resultado":num1/num2})}</h2>`)
-            break;
-        case "multiplicacion":
-            res.send(`<h2>${JSON.stringify({num1,num2,operacion,"resultado":num1*num2})}</h2>`)
-            break;
-        default:
-            res.send(`<h2>${JSON.stringify({"error":{num1,num2,operacion}})}</h2>`)        
+    }
+    if(req.query.num1==undefined || req.query.num2==undefined || req.query.operacion==undefined){
+
+        res.send(`<h2>${JSON.stringify({"error":{"num1":{"valor":req.query.num1,"tipo":typeof req.query.num1},"num2":{"valor":req.query.num2,"tipo":typeof req.query.num2},"operacion":{"valor":req.query.operacion,"tipo":typeof req.query.operacion}}})}</h2>`) 
     }
 
-    
-    
-}
-else{
-    res.sendFile(process.cwd()+'/public/operaciones.html')
-
-}
-
-})
+    }
+)
 
 
 
